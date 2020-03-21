@@ -20,11 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ItemsValidator extends BaseJsonValidator implements JsonValidator {
     private static final Logger logger = LoggerFactory.getLogger(ItemsValidator.class);
@@ -38,11 +34,13 @@ public class ItemsValidator extends BaseJsonValidator implements JsonValidator {
     public ItemsValidator(String schemaPath, JsonNode schemaNode, JsonSchema parentSchema, ValidationContext validationContext) {
         super(schemaPath, schemaNode, parentSchema, ValidatorTypeCode.ITEMS, validationContext);
         if (schemaNode.isObject() || schemaNode.isBoolean()) {
-            schema = new JsonSchema(validationContext, getValidatorType().getValue(), parentSchema.getCurrentUri(), schemaNode, parentSchema);
+            schema = new JsonSchema(validationContext, getValidatorType().getValue(), parentSchema.getCurrentUri(), schemaNode, parentSchema)
+                .initialize();
         } else {
             tupleSchema = new ArrayList<JsonSchema>();
             for (JsonNode s : schemaNode) {
-                tupleSchema.add(new JsonSchema(validationContext, getValidatorType().getValue(), parentSchema.getCurrentUri(), s, parentSchema));
+                tupleSchema.add(new JsonSchema(validationContext, getValidatorType().getValue(), parentSchema.getCurrentUri(), s, parentSchema)
+                    .initialize());
             }
 
             JsonNode addItemNode = getParentSchema().getSchemaNode().get(PROPERTY_ADDITIONAL_ITEMS);
@@ -50,7 +48,8 @@ public class ItemsValidator extends BaseJsonValidator implements JsonValidator {
                 if (addItemNode.isBoolean()) {
                     additionalItems = addItemNode.asBoolean();
                 } else if (addItemNode.isObject()) {
-                    additionalSchema = new JsonSchema(validationContext, parentSchema.getCurrentUri(), addItemNode);
+                    additionalSchema = new JsonSchema(validationContext, parentSchema.getCurrentUri(), addItemNode)
+                        .initialize();
                 }
             }
         }

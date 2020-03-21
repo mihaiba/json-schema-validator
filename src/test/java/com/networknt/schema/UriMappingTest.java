@@ -1,7 +1,26 @@
+/*
+ * Copyright (c) 2020 Network New Technologies Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.networknt.schema;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.networknt.schema.JsonSchemaFactory.Builder;
+import com.networknt.schema.uri.ClasspathURLFactory;
+import com.networknt.schema.uri.URLFactory;
+import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,14 +31,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.networknt.schema.JsonSchemaFactory.Builder;
-import com.networknt.schema.uri.ClasspathURLFactory;
-import com.networknt.schema.uri.URLFactory;
-import org.junit.experimental.theories.internal.SpecificDataPointsSupplier;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class UriMappingTest {
 
@@ -30,7 +43,7 @@ public class UriMappingTest {
     /**
      * Validate that a JSON URI Mapping file containing the URI Mapping schema is
      * schema valid.
-     * 
+     *
      * @throws IOException if unable to parse the mapping file
      */
     @Test
@@ -53,7 +66,7 @@ public class UriMappingTest {
      * available publicly. Use the URL http://example.com/invalid/schema/url to use
      * a public URL that returns a 404 Not Found. The locally mapped schema is a
      * valid, but empty schema.
-     * 
+     *
      * @throws IOException if unable to parse the mapping file
      */
     @Test
@@ -75,7 +88,7 @@ public class UriMappingTest {
             fail("Unexpected exception thrown");
         }
         URL mappings = ClasspathURLFactory.convert(
-          this.classpathURLFactory.create("resource:draft4/uri_mapping/invalid-schema-uri.json"));
+                this.classpathURLFactory.create("resource:draft4/uri_mapping/invalid-schema-uri.json"));
         JsonMetaSchema draftV4 = JsonMetaSchema.getV4();
         Builder builder = JsonSchemaFactory.builder()
                 .defaultMetaSchemaURI(draftV4.getUri())
@@ -89,7 +102,7 @@ public class UriMappingTest {
     /**
      * Validate that a JSON URI Mapping file containing the URI Mapping schema is
      * schema valid.
-     * 
+     *
      * @throws IOException if unable to parse the mapping file
      */
     @Test
@@ -110,7 +123,7 @@ public class UriMappingTest {
      * available publicly. Use the URL http://example.com/invalid/schema/url to use
      * a public URL that returns a 404 Not Found. The locally mapped schema is a
      * valid, but empty schema.
-     * 
+     *
      * @throws IOException if unable to parse the mapping file
      */
     @Test

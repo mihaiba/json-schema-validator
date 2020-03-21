@@ -14,12 +14,13 @@
   ~ limitations under the License.
   -->
 <project
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.networknt</groupId>
     <artifactId>json-schema-validator</artifactId>
-    <version>1.0.31</version>
+    <version>1.0.35</version>
     <packaging>bundle</packaging>
     <description>A json schema validator that supports draft v4, v6, v7 and v2019-09</description>
     <url>https://github.com/networknt/json-schema-validator</url>
@@ -64,6 +65,7 @@
         <version.jackson>2.10.0</version.jackson>
         <version.slf4j>1.7.25</version.slf4j>
         <version.common-lang3>3.5</version.common-lang3>
+        <version.joni>2.1.31</version.joni>
         <version.logback>1.2.3</version.logback>
         <version.junit>4.12</version.junit>
         <version.mockito>2.7.21</version.mockito>
@@ -85,6 +87,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${version.common-lang3}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jruby.joni</groupId>
+            <artifactId>joni</artifactId>
+            <version>${version.joni}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -245,7 +252,7 @@
                         <configuration>
                             <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-                        </configuration>                        
+                        </configuration>
                     </execution>
                     <!-- End Executions for unit tests -->
                     <!-- The Executions for integration tests -->
@@ -322,7 +329,8 @@
                                 </goals>
                                 <configuration>
                                     <dataFile>${project.build.directory}/coverage-reports/aggregate.exec</dataFile>
-                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
+                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate
+                                    </outputDirectory>
                                 </configuration>
                             </execution>
                             <!-- End Executions for merging -->
@@ -330,7 +338,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>        
+        </profile>
         <profile>
             <id>release-sign-artifacts</id>
             <activation>

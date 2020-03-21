@@ -1,5 +1,5 @@
 {
-  "id": "/draft4/cyclic/Extension",
+  "id": "Extension.json",
   "type": "object",
   "datatype": true,
   "category": "fhir",
@@ -9,7 +9,7 @@
       "format": "url"
     },
     "valueElement": {
-      "$ref": "/draft4/cyclic/Element"
+      "$ref": "Element.json"
     }
   },
   "additionalProperties": false,

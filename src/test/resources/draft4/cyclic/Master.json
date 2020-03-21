@@ -1,16 +1,16 @@
 {
-  "id": "/draft4/cyclic/Master",
+  "id": "Master.json",
   "type": "object",
   "datatype": true,
   "category": "fhir",
   "properties": {
     "element": {
-      "$ref": "/draft4/cyclic/Element"
+      "$ref": "Element.json"
     },
     "extension": {
       "type": "array",
       "items": {
-        "$ref": "/draft4/cyclic/Extension"
+        "$ref": "Extension.json"
       }
     }
   },

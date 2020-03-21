@@ -1,18 +1,22 @@
 package com.networknt.schema;
 
-import com.networknt.schema.impl.JsonValidator;
-import org.junit.Assert;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
-import javax.xml.bind.ValidationException;
+import java.net.URI;
+import java.net.URL;
+
+import static org.junit.Assert.assertEquals;
 
 public class CyclicDependencyTest {
 
 
     @Test
-    public void whenDependencyBetweenSchemaThenValidationSuccessful() {
+    public void whenDependencyBetweenSchemaThenValidationSuccessful() throws Exception {
 
-        JsonValidator validator = new JsonValidator();
+        JsonSchemaFactory schemaFactory = JsonSchemaFactory
+            .builder(JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V4))
+            .build();
         String jsonObject = "{\n" +
                 "  \"element\": {\n" +
                 "    \"id\": \"top\",\n" +
@@ -31,16 +35,12 @@ public class CyclicDependencyTest {
                 "    }\n" +
                 "  ]\n" +
                 "}";
-        String jsonSchemaLocation = "/draft4/cyclic/Master";
-        try {
-            boolean validate = validator.validate(jsonObject, jsonSchemaLocation);
-            Assert.assertTrue(validate);
-        } catch (ValidationException e) {
-            e.printStackTrace();
-            Assert.fail("Failing while validating JSON: " + jsonObject +
-                    " using schema from: " + jsonSchemaLocation +
-                    " exception: " + e);
-        }
+
+        URI jsonSchemaLocation = new URL("https://raw.githubusercontent.com/francesc79/json-schema-validator/bug/cyclic-dep/src/test/resources/draft4/cyclic/Master.json").toURI();
+
+        SchemaValidatorsConfig config = new SchemaValidatorsConfig();
+        JsonSchema schema = schemaFactory.getSchema(jsonSchemaLocation, config);
+        assertEquals(0, schema.validate(new ObjectMapper().readTree(jsonObject)).size());
     }
 
 

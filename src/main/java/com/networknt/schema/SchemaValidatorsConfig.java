@@ -17,6 +17,7 @@
 package com.networknt.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -31,10 +32,15 @@ public class SchemaValidatorsConfig {
      * When set to true, validator process is stop immediately when a very first validation error is discovered.
      */
     private boolean failFast;
-    
+
+    /**
+     * When set to true, use ECMA-262 compatible validator
+     */
+    private boolean ecma262Validator;
+
     /**
      * Map of public, normally internet accessible schema URLs to alternate locations; this allows for offline
-     * validation of schemas that refer to public URLs. This is merged with any mappings the {@link JsonSchemaFactory} 
+     * validation of schemas that refer to public URLs. This is merged with any mappings the {@link JsonSchemaFactory}
      * may have been built with.
      */
     private Map<String, String> uriMappings = new HashMap<String, String>();
@@ -42,9 +48,9 @@ public class SchemaValidatorsConfig {
     /**
      * When a field is set as nullable in the OpenAPI specification, the schema validator validates that it is nullable
      * however continues with validation against the nullable field
-     * 
+     * <p>
      * If handleNullableField is set to true && incoming field is nullable && value is field: null --> succeed
-     * If handleNullableField is set to false && incoming field is nullable && value is field: null --> it is up to the type 
+     * If handleNullableField is set to false && incoming field is nullable && value is field: null --> it is up to the type
      * validator using the SchemaValidator to handle it.
      */
     private boolean handleNullableField = true;
@@ -68,7 +74,7 @@ public class SchemaValidatorsConfig {
         this.failFast = failFast;
     }
 
-    public boolean isFailFast(){
+    public boolean isFailFast() {
         return this.failFast;
     }
 
@@ -80,14 +86,22 @@ public class SchemaValidatorsConfig {
     public void setUriMappings(Map<String, String> uriMappings) {
         this.uriMappings = uriMappings;
     }
-    
-    public boolean isHandleNullableField() {
-		return handleNullableField;
-	}
 
-	public void setHandleNullableField(boolean handleNullableField) {
-		this.handleNullableField = handleNullableField;
-	}
+    public boolean isHandleNullableField() {
+        return handleNullableField;
+    }
+
+    public void setHandleNullableField(boolean handleNullableField) {
+        this.handleNullableField = handleNullableField;
+    }
+
+    public boolean isEcma262Validator() {
+        return ecma262Validator;
+    }
+
+    public void setEcma262Validator(boolean ecma262Validator) {
+        this.ecma262Validator = ecma262Validator;
+    }
 
     public SchemaValidatorsConfig() {
     }

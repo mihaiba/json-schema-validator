@@ -16,16 +16,11 @@
 
 package com.networknt.schema;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.*;
 
 public class AnyOfValidator extends BaseJsonValidator implements JsonValidator {
     private static final Logger logger = LoggerFactory.getLogger(RequiredValidator.class);
@@ -36,7 +31,8 @@ public class AnyOfValidator extends BaseJsonValidator implements JsonValidator {
         super(schemaPath, schemaNode, parentSchema, ValidatorTypeCode.ANY_OF, validationContext);
         int size = schemaNode.size();
         for (int i = 0; i < size; i++) {
-            schemas.add(new JsonSchema(validationContext, getValidatorType().getValue(), parentSchema.getCurrentUri(), schemaNode.get(i), parentSchema));
+            schemas.add(new JsonSchema(validationContext, getValidatorType().getValue(), parentSchema.getCurrentUri(), schemaNode.get(i), parentSchema)
+                .initialize());
         }
     }
 
